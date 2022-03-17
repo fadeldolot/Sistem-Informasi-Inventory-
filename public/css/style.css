@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(../assets/images/loginB.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+}
+
+.form-signin {
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    transform: translate(-15%, 20%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    width: 270px;
+    box-shadow: 0 0 10px 5px black;
+}
+
+.form-signin h1 {
+    text-align: center;
+    color: white;
+    letter-spacing: 5px;
+    padding-top: 45px;
+
+}
+
+.form-floating {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    border-bottom: 2px solid white;
+    padding: 8px 0;
+
+}
+
+.form-floating input {
+    width: 100%;
+    padding: 0 10px;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+}
+
+.form-floating input::placeholder {
+    color: white;
+}
+
+.btn-login {
+    width: 100%;
+    background: none;
+    pad: 15px;
+    border: 1px solid white;
+    font-size: 18px;
+    letter-spacing: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 10px;
+}
+
+.btn-login:hover {
+    background: rgba(248, 4, 4, 0.8);
+}
+
+.img {
+    width: 80 px;
+    height: 80px;
+    text-align: center;
+    left: 20%;
+    top: 0;
+    position: fixed;
+
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.bottom a {
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+
+}
+
+.bottom a:hover {
+    text-decoration: underline;
+}
