@@ -19,7 +19,8 @@ class ProdukController extends Controller
         if ($request) {
 
             $data_produk = Produk::where('id_produk', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('nama_produk', 'LIKE', '%' . $request->search . '%')->paginate(5);
+                ->orWhere('nama_produk', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('distributor', 'LIKE', '%' . $request->search . '%')->paginate(5);
         } else {
 
             $data_produk = Produk::paginate(5);
