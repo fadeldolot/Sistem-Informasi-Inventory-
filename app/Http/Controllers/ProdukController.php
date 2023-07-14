@@ -49,7 +49,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_produk' => 'required',
+            'id_produk' => 'required | unique:produk',
             'nama_produk' => 'required',
             'satuan' => 'required',
             'harga' => 'required',

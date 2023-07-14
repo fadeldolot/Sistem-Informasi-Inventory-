@@ -4,6 +4,7 @@ use Facade\Ignition\Tabs\Tab;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rules\Unique;
 use League\CommonMark\Extension\Table\Table;
 
 class CreateProduk extends Migration
