@@ -34,12 +34,12 @@
                                     Tambah Data
                                 </button>
                             </div>
-                            {{-- <div class="dataTable-search">
+                            <div class="dataTable-search">
                                 <form action="/produk" method="get">
                                     <input type="search" class="form-control" name="search" placeholder="Search..."
                                         value="{{ $request->search }}">
                                 </form>
-                            </div> --}}
+                            </div>
                         </div>
                         <div class="dataTable-container">
                             <table id="datatablesSimple" class="dataTable-table">
