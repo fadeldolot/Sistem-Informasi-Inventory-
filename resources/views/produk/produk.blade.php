@@ -60,7 +60,7 @@
                                         <td>{{ $produk->id_produk }}</td>
                                         <td>{{ $produk->nama_produk }}</td>
                                         <td>{{ $produk->satuan }}</td>
-                                        <td>Rp. {{ $produk->harga }}</td>
+                                        <td>{{ $produk->harga }}</td>
                                         <td>{{ $produk->stok }}</td>
                                         <td>{{ $produk->distributor }}</td>
                                         <td>{{ $produk->brand }}</td>

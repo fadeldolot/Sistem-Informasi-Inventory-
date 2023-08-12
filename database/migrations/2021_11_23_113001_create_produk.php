@@ -21,7 +21,7 @@ class CreateProduk extends Migration
             $table->string('id_produk');
             $table->string('nama_produk');
             $table->string('satuan');
-            $table->integer('harga');
+            $table->string('harga', 20);
             $table->integer('stok');
             $table->string('distributor');
             $table->string('brand');
