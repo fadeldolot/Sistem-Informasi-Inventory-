@@ -49,7 +49,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_produk' => 'required | unique:produk',
+            // 'id_produk' => 'required | unique:produk',
             'nama_produk' => 'required',
             'satuan' => 'required',
             'harga' => 'required',
@@ -57,6 +57,17 @@ class ProdukController extends Controller
             'distributor' => 'required',
             'brand' => 'required',
         ]);
+
+        $latestProduct = Produk::latest()->first();
+        if ($latestProduct) {
+            $latestId = intval(substr($latestProduct->id_produk, -2));
+            $newId = str_pad($latestId + 1, 2, '0', STR_PAD_LEFT);
+        } else {
+            $newId = '01';
+        }
+
+        $year = date('y');
+        $validated['id_produk'] = "P$year$newId";
 
 
         Produk::create($validated);

@@ -3,7 +3,15 @@
 @section('content')
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Table Data Produk</h1>
+            <div class="d-flex gap-3 justify-content-between">
+                <h1 class="mt-4">Table Data Produk</h1>
+                <div class="justify-content-center align-self-center">
+                    <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Tambah Data
+                    </button>
+                </div>
+            </div>
 
             @if (session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -13,72 +21,45 @@
             @endif
 
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <svg class="svg-inline--fa fa-table fa-w-16 me-1" aria-hidden="true" focusable="false" data-prefix="fas"
-                        data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                        data-fa-i2svg="">
-                        <path fill="currentColor"
-                            d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM224 416H64v-96h160v96zm0-160H64v-96h160v96zm224 160H288v-96h160v96zm0-160H288v-96h160v96z">
-                        </path>
-                    </svg><!-- <i class="fas fa-table me-1"></i> Font Awesome fontawesome.com -->
-                    Table Data Produk
-                </div>
-                <div class="card-body">
-                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                        <div class="dataTable-top">
-                            <div class="dataTable-dropdown">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    Tambah Data
-                                </button>
-                            </div>
-                            {{-- <div class="dataTable-search">
-                                <form action="/produk" method="get">
-                                    <input type="search" class="form-control" name="search" placeholder="Search..."
-                                        value="{{ $request->search }}">
-                                </form>
-                            </div> --}}
-                        </div>
-                        <div class="dataTable-container">
-                            <table id="datatablesSimple" class="dataTable-table">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Id Produk</th>
-                                    <th>Nama Produk</th>
-                                    <th>Satuan</th>
-                                    <th>Harga</th>
-                                    <th>Stok</th>
-                                    <th>Distributor</th>
-                                    <th>Brand</th>
-                                    <th>Option</th>
-                                </tr>
-                                @foreach ($data_produk as $index => $produk)
-                                    <tr>
-                                        <td>{{ $index + $data_produk->firstItem() }}</td>
-                                        <td>{{ $produk->id_produk }}</td>
-                                        <td>{{ $produk->nama_produk }}</td>
-                                        <td>{{ $produk->satuan }}</td>
-                                        <td>{{ $produk->harga }}</td>
-                                        <td>{{ $produk->stok }}</td>
-                                        <td>{{ $produk->distributor }}</td>
-                                        <td>{{ $produk->brand }}</td>
-                                        <td>
-                                            <a href="/produk/{{ $produk->id }}/edit" class="btn btn-warning">Edit</a>
-                                            <a href="/produk/{{ $produk->id }}/delete" class="btn btn-danger">Delete</a>
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Produk ID</th>
+                        <th>Nama</th>
+                        <th>Satuan</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Distributor</th>
+                        <th>Brand</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data_produk as $index => $produk)
+                        <tr>
+                            <td>{{ $index + $data_produk->firstItem() }}</td>
+                            <td>{{ $produk->id_produk }}</td>
+                            <td>{{ $produk->nama_produk }}</td>
+                            <td>{{ $produk->satuan }}</td>
+                            <td>{{ $produk->harga }}</td>
+                            <td>{{ $produk->stok }}</td>
+                            <td>{{ $produk->distributor }}</td>
+                            <td>{{ $produk->brand }}</td>
+                            <td>
+                                <a href="/produk/{{ $produk->id }}/edit" class="btn btn-warning">Edit</a>
+                                <a href="/produk/{{ $produk->id }}/delete" class="btn btn-danger">Delete</a>
 
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                            {{ $data_produk->links() }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
         </div>
     </main>
+
+    <!-- Modal Edit -->
 
 
     <!-- Form Modal -->
@@ -96,14 +77,13 @@
                             <label for="id_produk" class="form-label">ID Produk</label>
                             <input type="text" name="id_produk"
                                 class="form-control @error('id_produk') is-invalid @enderror" id="id_produk"
-                                placeholder="Id Produk" required value="{{ old('id_produk') }}">
+                                placeholder="Id Produk" required readonly value="{{ $data_produk }}">
 
                             @error('id_produk')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
-
                         </div>
 
                         <div class="mb-3">
@@ -198,3 +178,6 @@
         </div>
     </div>
 @endsection
+<script>
+    new DataTable('#example');
+</script>
