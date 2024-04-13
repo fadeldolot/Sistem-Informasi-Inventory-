@@ -175,7 +175,55 @@
     <script src="{{ asset('admin') }}/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{ asset('admin') }}/js/datatables-simple-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    var idDelete = document.getElementById('delete');
+
+    idDelete.addEventListener('click', function(e) {
+        e.preventDefault();
+        var url = e.target.getAttribute('href');
+
+        Swal.fire({
+            title: 'Apakah Anda Yakin Ingin Menghapus Data Ini?',
+            text: 'Data Tersebut Akan Hilang Secara Permanen!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Lakukan permintaan HTTP untuk menghapus file dengan URL yang diberikan
+                fetch(url, {
+                    method: 'GET'
+                })
+                .then(data => {
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your file has been deleted.',
+                        icon: 'success'
+                    }).then(() => {
+                        // Refresh halaman setelah pop-up berhasil ditampilkan
+                        location.reload();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error deleting file:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Failed to delete file.',
+                        icon: 'error'
+                    });
+                });
+            }
+        });
+    });
+});
+
+
+    </script>
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('assets2') }}/plugins/jquery/jquery.min.js"></script>

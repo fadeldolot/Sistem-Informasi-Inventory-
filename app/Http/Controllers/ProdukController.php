@@ -22,12 +22,9 @@ class ProdukController extends Controller
                 ->orWhere('nama_produk', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('distributor', 'LIKE', '%' . $request->search . '%')->paginate(5);
         } else {
-
-            $data_produk = Produk::paginate(5);
+            
         }
-
-
-
+            $data_produk = Produk::paginate(5);
         return view('produk.produk', compact('data_produk', 'request'));
     }
 
@@ -71,7 +68,7 @@ class ProdukController extends Controller
 
 
         Produk::create($validated);
-        return redirect('/produk')->with('status', 'Data Produk Berhasil Ditambahkan!');
+        return redirect('/produk')->with('toast_success', 'Data Berhasil Di simpan');
     }
 
     /**
@@ -107,7 +104,7 @@ class ProdukController extends Controller
     {
         $produk = Produk::find($id);
         $produk->update($request->all());
-        return redirect('/produk')->with('status', 'Data Produk Berhasil Diubah!');
+        return redirect('/produk')->with('toast_success', 'Data Berhasil Di simpan');
     }
 
     /**
@@ -118,9 +115,9 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        $data_produk = Produk::find($id);
+        $data_produk = Produk::findorfail($id);
         $data_produk->delete();
-        return redirect('/produk')->with('status', 'Data Produk Berhasil Dihapus!');
+        return back();
     }
     public function print()
     {

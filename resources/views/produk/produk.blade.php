@@ -48,7 +48,7 @@
                             <td>{{ $produk->brand }}</td>
                             <td>
                                 <a href="/produk/{{ $produk->id }}/edit" class="btn btn-warning">Edit</a>
-                                <a href="/produk/{{ $produk->id }}/delete" class="btn btn-danger">Delete</a>
+                                <a href="/produk/{{ $produk->id }}/delete" class="btn btn-danger" id="delete">Delete</a>
 
                             </td>
                         </tr>
@@ -177,7 +177,8 @@
             </div>
         </div>
     </div>
-@endsection
+    @include('sweetalert::alert')
+    @endsection
 <script>
     new DataTable('#example');
 </script>
