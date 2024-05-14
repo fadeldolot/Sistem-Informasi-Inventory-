@@ -47,8 +47,11 @@
                             <td>{{ $produk->distributor }}</td>
                             <td>{{ $produk->brand }}</td>
                             <td>
-                                <a href="/produk/{{ $produk->id }}/edit" class="btn btn-warning">Edit</a>
-                                <a href="/produk/{{ $produk->id }}/delete" class="btn btn-danger" id="delete">Delete</a>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ $produk->id }}">
+                                    Edit
+                                </button>
+                                <a href="/produk/{{ $produk->id }}/delete" class="btn btn-danger delete">Delete</a>
 
                             </td>
                         </tr>
@@ -60,6 +63,74 @@
     </main>
 
     <!-- Modal Edit -->
+    @foreach ($data_produk as $index => $produk)
+        <tr>
+            ...
+            <td>
+                <div class="modal fade" id="editModal{{ $produk->id }}" tabindex="-1"
+                    aria-labelledby="editModalLabel{{ $produk->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{ $produk->id }}">Edit Data Produk</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/produk/{{ $produk->id }}/update" method="post">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="id_produk" class="form-label">ID Produk</label>
+                                        <input type="text" name="id_produk" class="form-control" id="id_produk"
+                                            aria-describedby="emailHelp" readonly value="{{ $produk->id_produk }}"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nama_produk" class="form-label">Nama Produk</label>
+                                        <input type="text" name="nama_produk" class="form-control" id="nama_produk"
+                                            value="{{ $produk->nama_produk }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="satuan" class="form-label">Satuan</label>
+                                        <input type="text" name="satuan" class="form-control" id="satuan"
+                                            value="{{ $produk->satuan }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="harga" class="form-label">Harga</label>
+                                        <input type="text" name="harga" class="form-control" id="harga"
+                                            value="{{ $produk->harga }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="stok" class="form-label">Stok</label>
+                                        <input type="text" name="stok" class="form-control" id="stok"
+                                            value="{{ $produk->stok }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="distributor" class="form-label">Distributor</label>
+                                        <select name="distributor" class="form-select" id="distributor" required>
+                                            <option value="" selected disabled>Pilih Distributor</option>
+                                            @foreach ($distributors as $distributor)
+                                                <option value="{{ $distributor->nama_distributor }}"
+                                                    {{ $produk->distributor == $distributor->nama_distributor ? 'selected' : '' }}>
+                                                    {{ $distributor->nama_distributor }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="brand" class="form-label">Brand</label>
+                                        <input type="text" name="brand" class="form-control" id="brand"
+                                            value="{{ $produk->brand }}" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning mb-4">Simpan</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    @endforeach
 
 
     <!-- Form Modal -->
@@ -102,8 +173,9 @@
 
                         <div class="mb-3">
                             <label for="satuan" class="form-label">Satuan</label>
-                            <input type="text" name="satuan" class="form-control @error('satuan') is-invalid @enderror"
-                                id="satuan" placeholder="Satuan" required value="{{ old('satuan') }}">
+                            <input type="text" name="satuan"
+                                class="form-control @error('satuan') is-invalid @enderror" id="satuan"
+                                placeholder="Satuan" required value="{{ old('satuan') }}">
 
                             @error('satuan')
                                 <div class="invalid-feedback">
@@ -112,11 +184,11 @@
                             @enderror
 
                         </div>
-
                         <div class="mb-3">
                             <label for="harga" class="form-label">Harga Barang</label>
-                            <input type="text" name="harga" class="form-control @error('harga') is-invalid @enderror"
-                                id="harga" placeholder="Harga Barang" required value="{{ old('harga') }}">
+                            <input type="text" name="harga"
+                                class="form-control @error('harga') is-invalid @enderror" id="harga"
+                                placeholder="Harga Barang" required value="{{ old('harga') }}">
 
                             @error('harga')
                                 <div class="invalid-feedback">
@@ -141,16 +213,21 @@
 
                         <div class="mb-3">
                             <label for="distributor" class="form-label">Distributor</label>
-                            <input type="text" name="distributor"
-                                class="form-control @error('distributor') is-invalid @enderror" id="distributor"
-                                placeholder="Distributor" required value="{{ old('distributor') }}">
-
+                            <select name="distributor" class="form-select @error('distributor') is-invalid @enderror"
+                                id="distributor" required>
+                                <option value="" selected disabled>Pilih Distributor</option>
+                                @foreach ($distributors as $distributor)
+                                    <option value="{{ $distributor->nama_distributor }}">
+                                        {{ old('distributor') == $distributor->nama_distributor ? 'selected' : '' }}
+                                        {{ $distributor->nama_distributor }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('distributor')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
-
                         </div>
 
                         <div class="mb-3">
@@ -178,7 +255,53 @@
         </div>
     </div>
     @include('sweetalert::alert')
-    @endsection
-<script>
-    new DataTable('#example');
-</script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var deleteButtons = document.querySelectorAll('.delete');
+
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var url = e.target.getAttribute('href');
+
+                    Swal.fire({
+                        title: 'Apakah Anda Yakin Ingin Menghapus Data Ini?',
+                        text: 'Data Tersebut Akan Hilang Secara Permanen!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, Hapus!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Lakukan permintaan HTTP untuk menghapus file dengan URL yang diberikan
+                            fetch(url, {
+                                    method: 'GET'
+                                })
+                                .then(data => {
+                                    Swal.fire({
+                                        title: 'Deleted!',
+                                        text: 'Your file has been deleted.',
+                                        icon: 'success'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Error deleting file:', error);
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Failed to delete file.',
+                                        icon: 'error'
+                                    });
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+@endsection
+<

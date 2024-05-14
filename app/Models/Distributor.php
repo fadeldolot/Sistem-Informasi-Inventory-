@@ -9,4 +9,9 @@ class Distributor extends Model
 {
     protected $table = 'distributor';
     protected $fillable = ['nama_distributor', 'no_hp'];
+
+    public function produk()
+    {
+        return $this->hasOne(Produk::class);
+    }
 }

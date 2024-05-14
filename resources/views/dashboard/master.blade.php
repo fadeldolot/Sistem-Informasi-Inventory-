@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets2') }}/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
@@ -177,53 +178,7 @@
     <script src="{{ asset('admin') }}/js/datatables-simple-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    var idDelete = document.getElementById('delete');
 
-    idDelete.addEventListener('click', function(e) {
-        e.preventDefault();
-        var url = e.target.getAttribute('href');
-
-        Swal.fire({
-            title: 'Apakah Anda Yakin Ingin Menghapus Data Ini?',
-            text: 'Data Tersebut Akan Hilang Secara Permanen!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Lakukan permintaan HTTP untuk menghapus file dengan URL yang diberikan
-                fetch(url, {
-                    method: 'GET'
-                })
-                .then(data => {
-                    Swal.fire({
-                        title: 'Deleted!',
-                        text: 'Your file has been deleted.',
-                        icon: 'success'
-                    }).then(() => {
-                        // Refresh halaman setelah pop-up berhasil ditampilkan
-                        location.reload();
-                    });
-                })
-                .catch(error => {
-                    console.error('Error deleting file:', error);
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Failed to delete file.',
-                        icon: 'error'
-                    });
-                });
-            }
-        });
-    });
-});
-
-
-    </script>
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('assets2') }}/plugins/jquery/jquery.min.js"></script>
@@ -236,7 +191,12 @@
 
     <!-- OPTIONAL SCRIPTS -->
     <script src="{{ asset('assets2') }}/dist/js/demo.js"></script>
-
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+    <script>
+        new DataTable('#example', {
+            paging: false,
+        });
+    </script>
     <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->
     <script src="{{ asset('assets2') }}/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>

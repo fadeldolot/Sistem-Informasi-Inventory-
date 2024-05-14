@@ -14,17 +14,9 @@ class DistributorController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request) {
+        $distributors = Distributor::paginate(5);    
 
-            $data_distributor = Distributor::where('nama_distributor', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('no_hp', 'LIKE', '%' . $request->search . '%')->paginate(5);
-        } else {
-
-
-            $data_distributor = Distributor::alpaginate(5);
-        }
-
-        return view('distributor.index', compact('data_distributor', 'request'));
+        return view('distributor.index', compact('distributors', 'request'));
     }
 
     /**
@@ -46,14 +38,13 @@ class DistributorController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_distributor' => 'required',
+            'nama_distributor' => 'required|unique:distributor',
             'no_hp' => 'required',
-
         ]);
 
 
         Distributor::create($validated);
-        return redirect('/distributor')->with('status', 'Data Distributor Berhasil Ditambahkan!');
+        return redirect('/distributor')->with('toast_success','Data Distributor Berhasil Di Simpan');
     }
 
     /**

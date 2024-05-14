@@ -30,6 +30,11 @@ class Produk extends Model
         return $this->hasMany(Penjualan::class);
     }
 
+    public function getdistributor()
+    {
+        return $this->belongsTo(Distributor::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

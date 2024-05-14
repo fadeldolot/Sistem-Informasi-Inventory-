@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Distributor;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,10 @@ class ProdukController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-
+    {   
+        $distributors = Distributor::orderBy('id')->get();
+        // dd($distributors);
+        // dd($distributors);
         if ($request) {
 
             $data_produk = Produk::where('id_produk', 'LIKE', '%' . $request->search . '%')
@@ -25,7 +28,7 @@ class ProdukController extends Controller
             
         }
             $data_produk = Produk::paginate(5);
-        return view('produk.produk', compact('data_produk', 'request'));
+        return view('produk.produk', compact('data_produk', 'request', 'distributors'));
     }
 
     /**
@@ -90,7 +93,8 @@ class ProdukController extends Controller
     public function edit($id)
     {
         $produk = Produk::find($id);
-        return view('produk.edit', ['produk' => $produk]);
+        $distributors = Distributor::all();
+        return view('produk.edit', ['produk' => $produk, 'distributors'=> $distributors]);
     }
 
     /**
@@ -104,7 +108,7 @@ class ProdukController extends Controller
     {
         $produk = Produk::find($id);
         $produk->update($request->all());
-        return redirect('/produk')->with('toast_success', 'Data Berhasil Di simpan');
+        return redirect('/produk')->with('toast_success', 'Data Berhasil Di update');
     }
 
     /**

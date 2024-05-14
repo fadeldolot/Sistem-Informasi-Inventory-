@@ -3,7 +3,15 @@
 @section('content')
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Table Data Distributor</h1>
+            <div class="d-flex gap-3 justify-content-between">
+                <h1 class="mt-4">Table Data Distributor</h1>
+                <div class="justify-content-center align-self-center">
+                    <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Tambah Data
+                    </button>
+                </div>
+            </div>
 
             @if (session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -13,66 +21,79 @@
             @endif
 
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <svg class="svg-inline--fa fa-table fa-w-16 me-1" aria-hidden="true" focusable="false" data-prefix="fas"
-                        data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                        data-fa-i2svg="">
-                        <path fill="currentColor"
-                            d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM224 416H64v-96h160v96zm0-160H64v-96h160v96zm224 160H288v-96h160v96zm0-160H288v-96h160v96z">
-                        </path>
-                    </svg><!-- <i class="fas fa-table me-1"></i> Font Awesome fontawesome.com -->
-                    Table Data Distributor
-                </div>
-                <div class="card-body">
-                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                        <div class="dataTable-top">
-                            <div class="dataTable-dropdown">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    Tambah Data
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Distributor</th>
+                        <th>No Hp</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($distributors as $index => $distributor)
+                        <tr>
+                            <td>{{ $index + $distributors->firstItem() }}</td>
+                            <td>{{ $distributor->nama_distributor }}</td>
+                            <td>{{ $distributor->no_hp }}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ $distributor->id }}">
+                                    Edit
                                 </button>
+                                <a href="/distributor/{{ $distributor->id }}/delete"
+                                    class="btn btn-danger delete">Delete</a>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $distributors->links() }}
+        </div>
+    </main>
+
+    {{-- Form Edit Modal --}}
+    <!-- Modal Edit -->
+    @foreach ($distributors as $index => $distributor)
+        <tr>
+            ...
+            <td>
+                <div class="modal fade" id="editModal{{ $distributor->id }}" tabindex="-1"
+                    aria-labelledby="editModalLabel{{ $distributor->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{ $distributor->id }}">Edit Data Produk</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            {{-- <div class="dataTable-search">
-                            <form action="/distributor" method="get">
-                                <input type="search"  class="form-control" name="search" placeholder="Search..." value="{{ $request->search }}">
-                            </form>
-                        </div> --}}
-                        </div>
-                        <div class="dataTable-container">
+                            <div class="modal-body">
+                                <form action="/distributor/{{ $distributor->id }}/update" method="post">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="nama_distributor" class="form-label">Nama Distributor</label>
+                                        <input type="text" name="nama_distributor" class="form-control"
+                                            id="nama_distributor" aria-describedby="emailHelp"
+                                            value="{{ $distributor->nama_distributor }}" required>
+                                    </div>
 
-                            <table id="datatablesSimple" class="dataTable-table">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Distributor</th>
-                                    <th>Nomor Hp</th>
-                                    <th>Option</th>
-                                </tr>
-                                @foreach ($data_distributor as $index => $distributor)
-                                    <tr>
-                                        <td>{{ $distributor->id }}</td>
-                                        <td>{{ $distributor->nama_distributor }}</td>
-                                        <td>{{ $distributor->no_hp }}</td>
-                                        <td>
-                                            <a href="/distributor/{{ $distributor->id }}/edit"
-                                                class="btn btn-warning">Edit</a>
-                                            <a href="/distributor/{{ $distributor->id }}/delete"
-                                                class="btn btn-danger">Delete</a>
+                                    <div class="mb-3">
+                                        <label for="no_hp" class="form-label">Nomor Hp</label>
+                                        <input type="text" name="no_hp" class="form-control" id="no_hp"
+                                            value="{{ $distributor->no_hp }}" required>
+                                    </div>
 
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                            {{ $data_distributor->links() }}
+                                    <button type="submit" class="btn btn-warning mb-4">Simpan</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-    </main>
-
-
-    <!-- Form Modal -->
+            </td>
+        </tr>
+    @endforeach
+    <!-- Form Entry Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -119,4 +140,52 @@
             </div>
         </div>
     </div>
+    @include('sweetalert::alert')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var deleteButtons = document.querySelectorAll('.delete');
+
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var url = e.target.getAttribute('href');
+
+                    Swal.fire({
+                        title: 'Apakah Anda Yakin Ingin Menghapus Data Ini?',
+                        text: 'Data Tersebut Akan Hilang Secara Permanen!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, Hapus!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Lakukan permintaan HTTP untuk menghapus file dengan URL yang diberikan
+                            fetch(url, {
+                                    method: 'GET'
+                                })
+                                .then(data => {
+                                    Swal.fire({
+                                        title: 'Deleted!',
+                                        text: 'Your file has been deleted.',
+                                        icon: 'success'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Error deleting file:', error);
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Failed to delete file.',
+                                        icon: 'error'
+                                    });
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection
